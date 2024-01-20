@@ -1,19 +1,19 @@
 # Maintainer: Karl-Felix Glatzer <karl.glatzer@gmx.de>
 pkgname=mingw-w64-libvpx
-pkgver=1.13.1
+pkgver=1.14.0
 pkgrel=1
 pkgdesc="VP8 and VP9 codec (mingw-w64)"
 arch=('any')
 url="http://www.webmproject.org/"
-license=('BSD')
+license=('custom:BSD')
 depends=('mingw-w64-crt')
 options=(!strip !buildflags staticlibs)
 makedepends=('mingw-w64-gcc' 'yasm' 'git')
-_tag=9d36fd0ac716fb3357b498ec9c04f71c6ab1022b
+_tag=602e2e8979d111b02c959470da5322797dd96a19
 source=(git+https://chromium.googlesource.com/webm/libvpx#tag=${_tag}
         'configure.patch')
-sha256sums=('SKIP'
-            '24861b8d90eee9a5a953807b002ea05b86769df668b5a72a0b6e95f10969c3b6')
+b2sums=('SKIP'
+        'fe5d0f5035cc872936010e6a3c24212da4ed5b0ba841e3271f8b419502bc251bae28b821fc4543021bf4d4594400b800796ddb993c443c881b98f59c0ae8a19e')
 _architectures="i686-w64-mingw32 x86_64-w64-mingw32"
 
 pkgver() {
@@ -47,6 +47,7 @@ build() {
         --disable-docs \
         --disable-install-docs \
         --disable-install-srcs \
+        --disable-unit-tests \
         --enable-pic \
         --enable-postproc \
         --enable-runtime-cpu-detect \
@@ -67,7 +68,7 @@ package() {
 
     #Move the hacked in shared libs to bin
     mv ${pkgdir}/usr/${_arch}/lib/libvpx.dll ${pkgdir}/usr/${_arch}/bin/
-    mv ${pkgdir}/usr/${_arch}/lib/libvpx.dll.8* ${pkgdir}/usr/${_arch}/bin/
+    mv ${pkgdir}/usr/${_arch}/lib/libvpx.dll.9* ${pkgdir}/usr/${_arch}/bin/
 
     #Install implib
     install -m 0644 ${srcdir}/libvpx/build-${_arch}/libvpx.dll.a ${pkgdir}/usr/${_arch}/lib/libvpx.dll.a
